@@ -1,118 +1,83 @@
 rules_version = '2';
 service cloud.firestore {
- match /databases/{database}/documents {
-  function owner(orgId) { return request.auth != null && request.auth.uid == orgId; }
-  function validText(v,max) { return v is string && v.size() <= max; }
-  match /organizations/{orgId} {
-   allow get: if owner(orgId);
-   allow list, update, delete: if false;
-   allow create: if owner(orgId)
-    && request.resource.data.keys().hasOnly(['name','segment','contact','ownerUid','createdAt'])
-    && request.resource.data.keys().hasAll(['name','segment','contact','ownerUid','createdAt'])
-    && request.resource.data.ownerUid == orgId
-    && validText(request.resource.data.name,120) && request.resource.data.name.size()>0
-    && validText(request.resource.data.segment,80) && request.resource.data.segment.size()>0
-    && validText(request.resource.data.contact,180) && request.resource.data.contact.size()>0
-    && request.resource.data.createdAt == request.time;
-   match /branding/{id} {
-    allow get: if owner(orgId) && id == 'default';
-    allow list, delete: if false;
-    allow create, update: if owner(orgId) && id == 'default'
-      && request.resource.data.keys().hasOnly(['template','color','logoUrl','updatedAt'])
-      && request.resource.data.keys().hasAll(['template','color','logoUrl','updatedAt'])
-      && request.resource.data.template in ['moderno','minimalista','corporativo']
-      && request.resource.data.color is string && request.resource.data.color.matches('^#[0-9a-fA-F]{6}
-    allow read, delete: if owner(orgId);
-    allow create, update: if owner(orgId) && request.resource.data.keys().hasOnly(['name','email','phone','createdAt','updatedAt'])
-     && request.resource.data.keys().hasAll(['name','email','phone','createdAt','updatedAt'])
-     && validText(request.resource.data.name,120) && request.resource.data.name.size()>0
-     && validText(request.resource.data.email,180) && validText(request.resource.data.phone,30)
-     && request.resource.data.createdAt is timestamp && request.resource.data.updatedAt == request.time
-     && (resource == null ? request.resource.data.createdAt == request.time : request.resource.data.createdAt == resource.data.createdAt);
-   }
-   match /services/{id} {
-    allow read, delete: if owner(orgId);
-    allow create, update: if owner(orgId) && request.resource.data.keys().hasOnly(['name','description','price','createdAt','updatedAt'])
-     && request.resource.data.keys().hasAll(['name','description','price','createdAt','updatedAt'])
-     && validText(request.resource.data.name,120) && request.resource.data.name.size()>0
-     && validText(request.resource.data.description,500)
-     && request.resource.data.price is number && request.resource.data.price >= 0 && request.resource.data.price <= 100000000
-     && request.resource.data.createdAt is timestamp && request.resource.data.updatedAt == request.time
-     && (resource == null ? request.resource.data.createdAt == request.time : request.resource.data.createdAt == resource.data.createdAt);
-   }
-   match /quotes/{id} {
-    allow read: if owner(orgId);
-    allow delete: if false;
-    allow create: if owner(orgId) && validQuote() && request.resource.data.status == 'rascunho'
-      && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
-    allow update: if owner(orgId) && validQuote()
-      && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
-      && request.resource.data.updatedAt == request.time;
-    function validQuote() {
-     let d=request.resource.data;
-     return d.keys().hasOnly(['clientId','clientName','items','discount','total','status','notes','validUntil','template','createdAt','updatedAt'])
-      && d.keys().hasAll(['clientId','clientName','items','discount','total','status','notes','validUntil','createdAt','updatedAt'])
-      && validText(d.clientId,128) && d.clientId.size()>0
-      && validText(d.clientName,120) && d.clientName.size()>0
-      && d.items is list && d.items.size()>0 && d.items.size()<=100
-      && d.discount is number && d.discount>=0 && d.discount<=100000000
-      && d.total is number && d.total>=0 && d.total<=100000000
-      && (!('template' in d) || d.template in ['moderno','minimalista','corporativo'])
-      && d.status in ['rascunho','enviado','aprovado','recusado']
-      && validText(d.notes,1000) && validText(d.validUntil,10)
-      && d.createdAt is timestamp && d.updatedAt is timestamp;
+  match /databases/{database}/documents {
+    function owner(orgId) { return request.auth != null && request.auth.uid == orgId; }
+    function validText(value, max) { return value is string && value.size() <= max; }
+    match /organizations/{orgId} {
+      allow get: if owner(orgId);
+      allow list, update, delete: if false;
+      allow create: if owner(orgId)
+        && request.resource.data.keys().hasOnly(['name','segment','contact','ownerUid','createdAt'])
+        && request.resource.data.keys().hasAll(['name','segment','contact','ownerUid','createdAt'])
+        && request.resource.data.ownerUid == orgId
+        && validText(request.resource.data.name,120) && request.resource.data.name.size() > 0
+        && validText(request.resource.data.segment,80) && request.resource.data.segment.size() > 0
+        && validText(request.resource.data.contact,180) && request.resource.data.contact.size() > 0
+        && request.resource.data.createdAt == request.time;
+      match /branding/{id} {
+        allow get: if owner(orgId) && id == 'default';
+        allow list, delete: if false;
+        allow create, update: if owner(orgId) && id == 'default'
+          && request.resource.data.keys().hasOnly(['template','color','logoUrl','updatedAt'])
+          && request.resource.data.keys().hasAll(['template','color','logoUrl','updatedAt'])
+          && request.resource.data.template in ['moderno','minimalista','corporativo']
+          && request.resource.data.color is string
+          && request.resource.data.color.matches('^#[0-9a-fA-F]{6}$')
+          && validText(request.resource.data.logoUrl,500)
+          && (request.resource.data.logoUrl == '' || request.resource.data.logoUrl.matches('^https://.+'))
+          && request.resource.data.updatedAt == request.time;
+      }
+      match /clients/{id} {
+        allow read, delete: if owner(orgId);
+        allow create: if owner(orgId) && validClient() && request.resource.data.createdAt == request.time;
+        allow update: if owner(orgId) && validClient() && request.resource.data.createdAt == resource.data.createdAt;
+        function validClient() {
+          let d = request.resource.data;
+          return d.keys().hasOnly(['name','email','phone','createdAt','updatedAt'])
+            && d.keys().hasAll(['name','email','phone','createdAt','updatedAt'])
+            && validText(d.name,120) && d.name.size() > 0
+            && validText(d.email,180) && validText(d.phone,30)
+            && d.createdAt is timestamp && d.updatedAt == request.time;
+        }
+      }
+      match /services/{id} {
+        allow read, delete: if owner(orgId);
+        allow create: if owner(orgId) && validService() && request.resource.data.createdAt == request.time;
+        allow update: if owner(orgId) && validService() && request.resource.data.createdAt == resource.data.createdAt;
+        function validService() {
+          let d = request.resource.data;
+          return d.keys().hasOnly(['name','description','price','createdAt','updatedAt'])
+            && d.keys().hasAll(['name','description','price','createdAt','updatedAt'])
+            && validText(d.name,120) && d.name.size() > 0
+            && validText(d.description,500)
+            && d.price is number && d.price >= 0 && d.price <= 100000000
+            && d.createdAt is timestamp && d.updatedAt == request.time;
+        }
+      }
+      match /quotes/{id} {
+        allow read: if owner(orgId);
+        allow delete: if false;
+        allow create: if owner(orgId) && validQuote() && request.resource.data.status == 'rascunho'
+          && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
+        allow update: if owner(orgId) && validQuote()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
+          && request.resource.data.updatedAt == request.time;
+        function validQuote() {
+          let d = request.resource.data;
+          return d.keys().hasOnly(['clientId','clientName','items','discount','total','status','notes','validUntil','template','createdAt','updatedAt'])
+            && d.keys().hasAll(['clientId','clientName','items','discount','total','status','notes','validUntil','createdAt','updatedAt'])
+            && validText(d.clientId,128) && d.clientId.size() > 0
+            && validText(d.clientName,120) && d.clientName.size() > 0
+            && d.items is list && d.items.size() > 0 && d.items.size() <= 100
+            && d.discount is number && d.discount >= 0 && d.discount <= 100000000
+            && d.total is number && d.total >= 0 && d.total <= 100000000
+            && (!('template' in d) || d.template in ['moderno','minimalista','corporativo'])
+            && d.status in ['rascunho','enviado','aprovado','recusado']
+            && validText(d.notes,1000) && validText(d.validUntil,10)
+            && d.createdAt is timestamp && d.updatedAt is timestamp;
+        }
+      }
     }
-   }
+    match /{document=**} { allow read, write: if false; }
   }
-  match /{document=**} { allow read, write: if false; }
- }
-})
-      && validText(request.resource.data.logoUrl,500)
-      && (request.resource.data.logoUrl == '' || request.resource.data.logoUrl.matches('^https://.+'))
-      && request.resource.data.updatedAt == request.time;
-   }
-   match /clients/{id} {
-    allow read, delete: if owner(orgId);
-    allow create, update: if owner(orgId) && request.resource.data.keys().hasOnly(['name','email','phone','createdAt','updatedAt'])
-     && request.resource.data.keys().hasAll(['name','email','phone','createdAt','updatedAt'])
-     && validText(request.resource.data.name,120) && request.resource.data.name.size()>0
-     && validText(request.resource.data.email,180) && validText(request.resource.data.phone,30)
-     && request.resource.data.createdAt is timestamp && request.resource.data.updatedAt == request.time
-     && (resource == null ? request.resource.data.createdAt == request.time : request.resource.data.createdAt == resource.data.createdAt);
-   }
-   match /services/{id} {
-    allow read, delete: if owner(orgId);
-    allow create, update: if owner(orgId) && request.resource.data.keys().hasOnly(['name','description','price','createdAt','updatedAt'])
-     && request.resource.data.keys().hasAll(['name','description','price','createdAt','updatedAt'])
-     && validText(request.resource.data.name,120) && request.resource.data.name.size()>0
-     && validText(request.resource.data.description,500)
-     && request.resource.data.price is number && request.resource.data.price >= 0 && request.resource.data.price <= 100000000
-     && request.resource.data.createdAt is timestamp && request.resource.data.updatedAt == request.time
-     && (resource == null ? request.resource.data.createdAt == request.time : request.resource.data.createdAt == resource.data.createdAt);
-   }
-   match /quotes/{id} {
-    allow read: if owner(orgId);
-    allow delete: if false;
-    allow create: if owner(orgId) && validQuote() && request.resource.data.status == 'rascunho'
-      && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
-    allow update: if owner(orgId) && validQuote()
-      && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
-      && request.resource.data.updatedAt == request.time;
-    function validQuote() {
-     let d=request.resource.data;
-     return d.keys().hasOnly(['clientId','clientName','items','discount','total','status','notes','validUntil','createdAt','updatedAt'])
-      && d.keys().hasAll(['clientId','clientName','items','discount','total','status','notes','validUntil','createdAt','updatedAt'])
-      && validText(d.clientId,128) && d.clientId.size()>0
-      && validText(d.clientName,120) && d.clientName.size()>0
-      && d.items is list && d.items.size()>0 && d.items.size()<=100
-      && d.discount is number && d.discount>=0 && d.discount<=100000000
-      && d.total is number && d.total>=0 && d.total<=100000000
-      && d.status in ['rascunho','enviado','aprovado','recusado']
-      && validText(d.notes,1000) && validText(d.validUntil,10)
-      && d.createdAt is timestamp && d.updatedAt is timestamp;
-    }
-   }
-  }
-  match /{document=**} { allow read, write: if false; }
- }
 }
