@@ -2,8 +2,8 @@ import Link from 'next/link';
 const quotes=[['AG-001','Mariana Costa','Reforma de cozinha','R$ 8.450,00','Enviado'],['AG-002','Carlos Almeida','Pintura residencial','R$ 2.180,00','Rascunho'],['AG-003','Fernanda Souza','Instalação elétrica','R$ 3.700,00','Aprovado']];
 export default function Dashboard() {
   return <>
-    <div className="page-head"><div><div className="eyebrow">PAINEL DE CONTROLE</div><h1>Visão geral</h1><p>Acompanhe os orçamentos e as oportunidades da sua empresa.</p></div><Link className="btn" href="/app/orcamentos">+ Novo orçamento</Link></div>
-    <div className="notice">Dados ilustrativos para apresentação visual. Cadastro, autenticação e banco de dados ainda não estão conectados.</div>
+    <div className="page-head"><div><div className="eyebrow">SEU ESPAÇO DE TRABALHO</div><h1>Visão geral</h1><p>Tudo o que importa para o seu negócio, em um só lugar.</p></div><Link className="btn" href="/app/orcamentos">+ Novo orçamento</Link></div>
+    <div className="notice">Prévia ilustrativa do painel. Os indicadores e orçamentos abaixo são exemplos e não representam dados reais da sua empresa.</div>
     <div className="metrics">
       <div className="metric"><span>Orçamentos criados</span><strong>24</strong><small>Exemplo demonstrativo</small></div>
       <div className="metric"><span>Propostas enviadas</span><strong>18</strong><small>Últimos 30 dias (exemplo)</small></div>
