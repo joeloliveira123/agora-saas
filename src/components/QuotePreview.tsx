@@ -1,0 +1,7 @@
+'use client';
+import {money,type QuoteItem} from '../lib/records';
+import {type Branding,type Template} from '../lib/templates';
+export default function QuotePreview({client,items,discount,notes,validUntil,template,branding,company}:{client:string;items:QuoteItem[];discount:number;notes:string;validUntil:string;template:Template;branding:Branding;company:string}){
+ const subtotal=items.reduce((sum,x)=>sum+x.quantity*x.unitPrice,0);
+ return <article className={'proposal-preview proposal-'+template} style={{'--proposal-color':branding.color} as React.CSSProperties}><header><div>{branding.logoUrl&&<img src={branding.logoUrl} alt="Logotipo da empresa" className="proposal-logo" referrerPolicy="no-referrer"/>}<strong>{company}</strong></div><span>PROPOSTA COMERCIAL</span></header><h2>Orçamento</h2><p><strong>Cliente:</strong> {client}</p>{validUntil&&<p><strong>Validade:</strong> {validUntil}</p>}<table><thead><tr><th>Descrição</th><th>Qtd.</th><th>Unitário</th><th>Total</th></tr></thead><tbody>{items.map((x,i)=><tr key={i}><td>{x.description}</td><td>{x.quantity}</td><td>{money(x.unitPrice)}</td><td>{money(x.quantity*x.unitPrice)}</td></tr>)}</tbody></table><div className="proposal-totals"><p>Subtotal: {money(subtotal)}</p><p>Desconto: {money(discount)}</p><h3>Total: {money(Math.max(0,subtotal-discount))}</h3></div>{notes&&<p><strong>Observações:</strong> {notes}</p>}</article>;
+}
