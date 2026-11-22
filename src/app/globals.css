@@ -113,3 +113,32 @@ td{color:#3e4d67}tbody tr:hover{background:#fafbff}
 @media(max-width:1050px){.app-main{padding:30px 24px 60px}}
 @media(max-width:720px){.sidebar{padding:20px 8px}.sidebar .brand{padding:0;justify-content:center}.sidebar .brand-word,.sidebar .workspace,.sidebar .nav-caption,.sidebar .nav-label,.sidebar-bottom{display:none}.sidebar nav a{justify-content:center;padding:13px 5px;font-size:0}.sidebar nav a .nav-icon{font-size:22px}.sidebar nav a.active{box-shadow:inset 3px 0 0 #315be8}.app-main{padding:25px 15px 55px}.metric{padding:16px;min-height:130px}.metric strong{font-size:23px}.table-title{padding:20px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* Ágora adaptive theme: saved preference with system-default fallback. */
+.theme-toggle{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);padding:12px 14px;text-align:left;font-size:13px;font-weight:700;cursor:pointer;margin-top:auto}
+.theme-toggle>span:first-child{font-size:20px;line-height:1}.theme-toggle:hover{border-color:var(--blue);color:var(--blue)}
+.sidebar-bottom{margin-top:0}
+html[data-agora-theme="dark"]{color-scheme:dark;--ink:#e9efff;--muted:#a4b3cc;--line:#2a3955;--blue:#88a5ff;--bg:#0c1425;--navy:#f1f5ff;--surface:#17233a;--shadow:0 14px 38px #0002}
+html[data-agora-theme="dark"] body,html[data-agora-theme="dark"] .app-shell{background:var(--bg);color:var(--ink)}
+html[data-agora-theme="dark"] .sidebar,html[data-agora-theme="dark"] .metric,html[data-agora-theme="dark"] .table-card,html[data-agora-theme="dark"] .data-form,html[data-agora-theme="dark"] .tracking-metric,html[data-agora-theme="dark"] .tracking-dialog,html[data-agora-theme="dark"] .auth-card,html[data-agora-theme="dark"] .empty,html[data-agora-theme="dark"] .card{background:var(--surface);border-color:var(--line);color:var(--ink)}
+html[data-agora-theme="dark"] .workspace,html[data-agora-theme="dark"] th,html[data-agora-theme="dark"] .tracking-message{background:#1d2b45;color:var(--ink);border-color:var(--line)}
+html[data-agora-theme="dark"] .workspace strong,html[data-agora-theme="dark"] .metric strong,html[data-agora-theme="dark"] .page-head h1,html[data-agora-theme="dark"] .table-title h2{color:var(--ink)}
+html[data-agora-theme="dark"] .workspace small,html[data-agora-theme="dark"] .workspace span,html[data-agora-theme="dark"] .nav-caption,html[data-agora-theme="dark"] .metric span,html[data-agora-theme="dark"] .metric small,html[data-agora-theme="dark"] .page-head p{color:var(--muted)}
+html[data-agora-theme="dark"] .sidebar nav a{color:#bdc9df}
+html[data-agora-theme="dark"] .sidebar nav a:hover,html[data-agora-theme="dark"] .sidebar nav a.active{background:#263a65;color:#b7c9ff}
+html[data-agora-theme="dark"] td{color:#d9e4f8}html[data-agora-theme="dark"] tbody tr:hover{background:#1d2c48}
+html[data-agora-theme="dark"] .pill,html[data-agora-theme="dark"] .tracking-pendente{background:#283e70;color:#c1d0ff}
+html[data-agora-theme="dark"] .data-form label{color:#d5e0f5}
+html[data-agora-theme="dark"] input,html[data-agora-theme="dark"] select,html[data-agora-theme="dark"] textarea{background:#101d32;color:#f0f4ff;border-color:#3a4b69}
+html[data-agora-theme="dark"] input::placeholder,html[data-agora-theme="dark"] textarea::placeholder{color:#8294b0}
+html[data-agora-theme="dark"] .btn.ghost,html[data-agora-theme="dark"] td button,html[data-agora-theme="dark"] .tracking-actions .btn.ghost{background:#263a65;color:#c5d3ff}
+html[data-agora-theme="dark"] .notice{background:#24375b;color:#c7d7ff}
+html[data-agora-theme="dark"] .tracking-actions button,html[data-agora-theme="dark"] .tracking-dialog-head button{background:#1e2d48;color:var(--ink);border-color:var(--line)}
+html[data-agora-theme="dark"] .auth{background:radial-gradient(ellipse at top,#192b50,transparent 60%),var(--bg)}
+html[data-agora-theme="dark"] .proposal-preview{background:#fff;color:#172338;color-scheme:light}
+html[data-agora-theme="dark"] .proposal-preview th{background:#f4f6fa;color:#53647a}
+html[data-agora-theme="dark"] .proposal-preview td{color:#172338}
+html[data-agora-theme="dark"] .proposal-preview input{background:#fff;color:#172338}
+@media(max-width:720px){.theme-toggle{justify-content:center;padding:12px 5px}.theme-toggle-label{display:none}}
+@media print{.theme-toggle{display:none!important}html[data-agora-theme="dark"] .proposal-preview{background:#fff!important;color:#172338!important}}
