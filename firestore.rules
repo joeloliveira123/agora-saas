@@ -1,0 +1,27 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // No client may read another organization's data.
+    // MVP: one organization per user; organization document ID = auth UID.
+    match /organizations/{organizationId} {
+      allow get: if request.auth != null && request.auth.uid == organizationId;
+      allow list: if false;
+      allow create: if request.auth != null
+        && request.auth.uid == organizationId
+        && request.resource.data.keys().hasOnly(['name','segment','contact','ownerUid','createdAt'])
+        && request.resource.data.keys().hasAll(['name','segment','contact','ownerUid','createdAt'])
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 120
+        && request.resource.data.segment is string && request.resource.data.segment.size() > 0 && request.resource.data.segment.size() <= 80
+        && request.resource.data.contact is string && request.resource.data.contact.size() > 0 && request.resource.data.contact.size() <= 180
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+      match /{document=**} {
+        allow read, write: if false;
+      }
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

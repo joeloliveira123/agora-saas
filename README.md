@@ -1,40 +1,40 @@
 # Ágora — SaaS de Orçamentos
 
-Starter visual da plataforma Ágora, com **landing page + dashboard** no mesmo projeto Next.js.
+Projeto Next.js 15 + React 19 + TypeScript com site institucional e dashboard.
 
-> **Atenção:** versão demonstrativa. Autenticação, persistência, edição e envio de orçamentos ainda não estão implementados. Os dados do dashboard são fictícios; não usar em produção.
+## Integração Firebase (etapa atual)
 
-## Rodar localmente
+1. Crie um projeto no Firebase Console e registre um aplicativo **Web**.
+2. Em **Authentication > Sign-in method**, habilite **E-mail/senha** e **Google**. Configure o e-mail de suporte do Google.
+3. Em **Authentication > Settings > Authorized domains**, autorize os domínios onde o app será executado. Confira `localhost` para testes locais.
+4. Crie o banco **Cloud Firestore** em modo de produção (não modo de teste).
+5. Copie `.env.example` para `.env.local` e preencha os seis valores públicos da configuração do app Web. **Nunca** inclua chaves de contas de serviço ou segredos de backend no repositório.
+6. Publique as regras do arquivo `firestore.rules` no painel Firestore > Regras (ou use `firebase deploy --only firestore:rules` depois de configurar o Firebase CLI).
+7. Execute `npm install`, `npm run typecheck` e `npm run dev`.
 
-Requisitos: Node.js 20+ e npm.
+**Importante:** a integração só funcionará após configurar o projeto Firebase e publicar as regras. O arquivo `.env.local` está no `.gitignore`.
+
+## O que funciona após configurar
+
+- Cadastro e login com e-mail/senha.
+- Login com Google via popup.
+- Sessão persistida pelo Firebase Auth e botão sair.
+- Proteção de interface do dashboard e redirecionamento para login.
+- Cadastro inicial da empresa com nome, segmento e contato em `organizations/{uid}`.
+- Leitura da empresa vinculada ao usuário autenticado.
+- Regras Firestore que impedem leitura entre empresas e negam escrita fora do cadastro inicial.
+
+**Limitações atuais:** não há redefinição de senha, verificação de e-mail, vínculo entre provedores, gestão de múltiplos usuários por empresa, nem backend com cookies de sessão. A proteção de rotas é no cliente; dados privados precisam ser protegidos pelas regras Firestore e, em APIs futuras, por autenticação validada no servidor. O dashboard ainda mostra dados fictícios, não métricas reais. Orçamentos e solicitações ainda não estão implementados.
+
+## Desenvolvimento
 
 ```bash
 npm install
 npm run dev
 ```
 
-Acesse http://localhost:3000.
+Rotas: `/`, `/entrar`, `/cadastro`, `/app`, `/app/configurar`, `/app/orcamentos`, `/app/solicitacoes`, `/app/clientes`, `/app/servicos`, `/app/configuracoes`.
 
-## Rotas
+## Próximas etapas
 
-- `/`: site institucional
-- `/entrar` e `/cadastro`: telas visuais de autenticação (desabilitadas)
-- `/app`: dashboard demonstrativo
-- `/app/orcamentos`: orçamentos (estrutura visual)
-- `/app/solicitacoes`: solicitações (estrutura visual)
-- `/app/clientes`: clientes (estrutura visual)
-- `/app/servicos`: catálogo de serviços (estrutura visual)
-- `/app/configuracoes`: configurações (estrutura visual)
-
-## Produto e próximas entregas
-
-O Ágora é um SaaS gratuito inicialmente, para autônomos, MEIs e pequenas empresas. Autenticação prevista por Google e e-mail/senha, onboarding simples, personalização profissional e dois fluxos de orçamento: manual e solicitação pública.
-
-1. Firebase Authentication (Google + e-mail/senha), login e proteção de rotas.
-2. Onboarding de empresa e segurança multi-tenant.
-3. Persistência de clientes, serviços e orçamentos.
-4. Editor de orçamento com cálculo, modelos profissionais e compartilhamento.
-5. Formulário público para receber solicitações.
-6. Testes de permissões, validações, responsividade e publicação.
-
-Não configurar serviços pagos sem avaliar custos e limites.
+Implementar recuperação de senha e vínculo de provedores, configurar perfis e catálogo, criar CRUD de orçamentos e, depois, solicitações públicas. Testar regras de segurança com emulador antes do lançamento.
