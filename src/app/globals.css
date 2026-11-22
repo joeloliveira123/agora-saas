@@ -142,3 +142,56 @@ html[data-agora-theme="dark"] .proposal-preview td{color:#172338}
 html[data-agora-theme="dark"] .proposal-preview input{background:#fff;color:#172338}
 @media(max-width:720px){.theme-toggle{justify-content:center;padding:12px 5px}.theme-toggle-label{display:none}}
 @media print{.theme-toggle{display:none!important}html[data-agora-theme="dark"] .proposal-preview{background:#fff!important;color:#172338!important}}
+
+
+/* ÁGORA — warm architectural identity inspired by the approved concept.
+   Emerald ink, sunlit ochre, warm paper; no metallic gradients or fake 3D. */
+:root{--ink:#19362d;--muted:#64746c;--line:#e4e8df;--blue:#176e51;--bg:#f6f5ef;--navy:#103b2e;--surface:#fffefa;--shadow:0 12px 32px rgba(28,52,38,.045)}
+body{font-family:"Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.brand{gap:12px;color:var(--navy)}.brand-word{font-size:27px;font-weight:800;letter-spacing:-1.4px}
+.brand-symbol.agora-mark{position:relative;background:#103b2e;border-radius:11px;box-shadow:none;overflow:hidden}
+.agora-arch{position:absolute;left:10px;top:7px;width:17px;height:24px;border:6px solid #e6ad4b;border-bottom:0;border-radius:14px 14px 0 0}
+.agora-arch:after{content:"";position:absolute;left:-11px;top:13px;width:32px;height:11px;border-top:4px solid #e6ad4b;border-radius:50%;transform:rotate(-9deg)}
+.btn{background:#176e51;box-shadow:none}.btn:hover{background:#0e563f;box-shadow:0 8px 18px #176e5125}
+.btn.ghost{background:#e8efe8;color:#176e51}.btn.ghost:hover{background:#dce9dc}
+.sidebar{background:#103b2e;border-right:0}.sidebar .brand,.sidebar .brand-word{color:#fffaf0}
+.sidebar .brand-symbol.agora-mark{background:#f1e6c9}.sidebar .agora-arch{border-color:#146b4b}.sidebar .agora-arch:after{border-color:#146b4b}
+.sidebar .workspace{background:#194938;border:1px solid #315e4e}
+.sidebar .workspace strong{color:#fffaf0}.sidebar .workspace small,.sidebar .workspace span,.sidebar .nav-caption{color:#b6d0c1}
+.sidebar nav a{color:#c8ddd0}.sidebar nav a:hover{background:#235b45;color:#fff}
+.sidebar nav a.active{background:#e5ac48;color:#19372d;box-shadow:none}
+.sidebar-bottom{border-color:#315e4e;color:#f7f4e9}.sidebar-bottom small{color:#c8ddd0}
+.sidebar-bottom a,.sidebar-bottom button{color:inherit}
+.avatar{background:#e5ac48;color:#143d2e}
+.sidebar .theme-toggle{background:#194938;border-color:#315e4e;color:#f8f2e5}.sidebar .theme-toggle:hover{border-color:#e5ac48;color:#e5ac48}
+.page-head .eyebrow,.eyebrow{color:#9a7132}
+.page-head h1{color:#19382c}.metric{border-radius:17px}.metric::before{background:#e6ad4b;height:2px;opacity:.85}
+.metric strong{color:#173e2f}.table-title a,.table-title a:hover{color:#176e51}
+.pill{background:#e6f1e9;color:#166446}
+.tracking-tabs button.active{border-color:#176e51;color:#176e51}
+.tracking-metric.active{border-color:#176e51;box-shadow:0 0 0 1px #176e51}
+.tracking-metric:hover{border-color:#8bb9a3}
+.tracking-actions .btn{background:#176e51}.tracking-actions .btn.ghost{background:#e8f1e9;color:#176e51}
+.data-form input:focus,.data-form select:focus,.tracking-toolbar input:focus{border-color:#67a88b;box-shadow:0 0 0 3px #176e511c}
+.topbar{background:#fffefa}.topbar nav a:not(.btn):hover{color:#176e51}
+.hero{background:radial-gradient(ellipse at 78% 12%,#e8ebdb 0%,transparent 48%),#fffefa;text-align:left;min-height:560px;padding:110px max(30px,calc((100vw - 1160px)/2)) 100px}
+.hero .eyebrow{background:#e9eee5;color:#315a42;letter-spacing:1.1px}
+.hero h1{color:#163a2b;max-width:850px;font-size:clamp(52px,6.4vw,90px);letter-spacing:-4px}
+.hero h1 em{color:#bc8736}.hero p{margin:0;max-width:610px;color:#5c6c61}
+.hero .actions{justify-content:flex-start}.hero-note{text-align:left;color:#7c897d}
+.section{background:#f6f5ef}.section h2{color:#173a2c}.card{background:#fffefa}.card span{color:#b68435}
+.banner{background:#103b2e}.banner p{color:#d4e1d5}
+.auth{background:radial-gradient(ellipse at 50% 0%,#e8ecdf,transparent 55%),#f6f5ef}
+html[data-agora-theme="dark"]{--ink:#e8eee6;--muted:#a8b8ac;--line:#31483e;--blue:#a7d7b6;--bg:#0c201a;--navy:#f7eddb;--surface:#172e25;--shadow:0 14px 36px #0002}
+html[data-agora-theme="dark"] .sidebar{background:#091a15}
+html[data-agora-theme="dark"] .sidebar .workspace,html[data-agora-theme="dark"] .sidebar .theme-toggle{background:#17392b;border-color:#355b47}
+html[data-agora-theme="dark"] .sidebar nav a.active{background:#e6ad4b;color:#183d2c}
+html[data-agora-theme="dark"] .sidebar nav a:hover{background:#23533f;color:#fff}
+html[data-agora-theme="dark"] .metric strong,html[data-agora-theme="dark"] .page-head h1,html[data-agora-theme="dark"] .table-title h2{color:#e8eee6}
+html[data-agora-theme="dark"] .workspace strong{color:#f6f0e4}
+html[data-agora-theme="dark"] .btn{background:#c99a46;color:#152b21}
+html[data-agora-theme="dark"] .btn:hover{background:#e2b461}
+html[data-agora-theme="dark"] .pill{background:#254b37;color:#c3ead0}
+html[data-agora-theme="dark"] .tracking-tabs button.active{color:#e6ad4b;border-color:#e6ad4b}
+html[data-agora-theme="dark"] .auth{background:radial-gradient(ellipse at top,#214334,transparent 60%),var(--bg)}
+@media(max-width:720px){.hero{padding:85px 25px 75px}.hero h1{font-size:clamp(42px,10vw,62px);letter-spacing:-2.5px}.hero .actions{align-items:stretch}.sidebar .brand-symbol.agora-mark{width:37px;height:37px}}
