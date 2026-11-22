@@ -21,7 +21,7 @@ service cloud.firestore {
      && validText(request.resource.data.name,120) && request.resource.data.name.size()>0
      && validText(request.resource.data.email,180) && validText(request.resource.data.phone,30)
      && request.resource.data.createdAt is timestamp && request.resource.data.updatedAt == request.time
-     && (request.method == 'create' ? request.resource.data.createdAt == request.time : request.resource.data.createdAt == resource.data.createdAt);
+     && (resource == null ? request.resource.data.createdAt == request.time : request.resource.data.createdAt == resource.data.createdAt);
    }
    match /services/{id} {
     allow read, delete: if owner(orgId);
@@ -31,7 +31,7 @@ service cloud.firestore {
      && validText(request.resource.data.description,500)
      && request.resource.data.price is number && request.resource.data.price >= 0 && request.resource.data.price <= 100000000
      && request.resource.data.createdAt is timestamp && request.resource.data.updatedAt == request.time
-     && (request.method == 'create' ? request.resource.data.createdAt == request.time : request.resource.data.createdAt == resource.data.createdAt);
+     && (resource == null ? request.resource.data.createdAt == request.time : request.resource.data.createdAt == resource.data.createdAt);
    }
    match /quotes/{id} {
     allow read: if owner(orgId);
