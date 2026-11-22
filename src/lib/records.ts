@@ -3,7 +3,7 @@ import { db } from './firebase';
 export type Client = { id:string; name:string; email:string; phone:string };
 export type Service = { id:string; name:string; description:string; price:number };
 export type QuoteItem = { description:string; quantity:number; unitPrice:number };
-export type Quote = { id:string; clientId:string; clientName:string; items:QuoteItem[]; discount:number; total:number; status:'rascunho'|'enviado'|'aprovado'|'recusado'; notes:string; validUntil:string };
+export type Quote = { id:string; template?:'moderno'|'minimalista'|'corporativo'; clientId:string; clientName:string; items:QuoteItem[]; discount:number; total:number; status:'rascunho'|'enviado'|'aprovado'|'recusado'; notes:string; validUntil:string };
 type Kind = 'clients'|'services'|'quotes';
 const ref = (uid:string,kind:Kind) => { if(!db) throw new Error('Firebase não configurado'); if(!uid) throw new Error('Entre na sua conta'); return collection(db,'organizations',uid,kind); };
 export async function listRecords<T>(uid:string,kind:Kind):Promise<T[]> {
